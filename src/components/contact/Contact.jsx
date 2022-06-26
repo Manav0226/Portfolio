@@ -3,8 +3,24 @@ import './contact.css'
 import {MdMarkEmailRead} from 'react-icons/md'
 import {IoLogoInstagram} from 'react-icons/io'
 import {FaWhatsapp} from 'react-icons/fa'
+import { useRef } from 'react';
+import emailjs from 'emailjs-com'
 
 const Contact = () => {
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_zj91q9f', 'template_ayktq0s', form.current, '4Pr7nNcdGNvV9gCaJ')
+    .then((result) => {
+      console.log(result.text);
+  }, (error) => {
+      console.log(error.text);
+  });
+    e.target.reset()
+  };
+
   return (
     <section id='contact'>
       <h5>Get In Touch</h5>
@@ -35,7 +51,7 @@ const Contact = () => {
 
         </div>
 
-        <form action="">
+        <form ref={form} onSubmit={sendEmail}>
           <input type="text" name='name' placeholder='Your Full Name' required />
           <input type="email" name="email" placeholder='Your Email' required />
           <textarea name="message" rows="7" placeholder='Your Messgae' required ></textarea>
@@ -44,7 +60,7 @@ const Contact = () => {
 
       </div>
     </section >
-  )
-}
+  );
+};
 
 export default Contact
